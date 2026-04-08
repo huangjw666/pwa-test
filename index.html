@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>救援系统测试</title>
+    
+    <link rel="manifest" href="manifest.json">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="救援系统">
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/180/ff5000/ffffff?text=LOGO">
+
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        
+        /* 右侧悬浮下载按钮 */
+        .float-btn {
+            position: fixed;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            background: #007bff;
+            color: white;
+            padding: 15px 5px;
+            border-radius: 30px;
+            text-align: center;
+            font-size: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        #status-text { font-weight: bold; color: #ff5000; }
+        .login-btn { margin-top: 20px; padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>欢迎使用救援系统</h2>
+    <p>当前状态：<span id="status-text">未登录</span></p>
+    <button class="login-btn" onclick="login()">点击模拟登录</button>
+    <button class="login-btn" style="background:#dc3545" onclick="logout()">注销</button>
+</div>
+
+<div class="float-btn" onclick="showGuide()">
+    添加到<br>桌面
+</div>
+
+<script>
+    // 检查登录状态
+    function checkLogin() {
+        const user = localStorage.getItem('userToken');
+        const statusText = document.getElementById('status-text');
+        if (user) {
+            statusText.innerText = '已登录 (Token: ' + user + ')';
+            statusText.style.color = 'green';
+        } else {
+            statusText.innerText = '未登录';
+            statusText.style.color = '#ff5000';
+        }
+    }
+
+    function login() {
+        const mockToken = "ABC" + Math.floor(Math.random()*1000);
+        localStorage.setItem('userToken', mockToken);
+        alert('登录成功！现在请尝试将网页添加到桌面并重新打开。');
+        checkLogin();
+    }
+
+    function logout() {
+        localStorage.removeItem('userToken');
+        checkLogin();
+    }
+
+    function showGuide() {
+        if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            alert('iPhone用户请点击浏览器底部的【分享】按钮，向上滑动选择【添加到主屏幕】。');
+        } else {
+            alert('安卓用户请点击浏览器菜单，选择【安装应用】或【添加到主屏幕】。');
+        }
+    }
+
+    // 初始化检查
+    checkLogin();
+</script>
+
+</body>
+</html>
