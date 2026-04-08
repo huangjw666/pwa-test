@@ -1,6 +1,6 @@
 {
-  "name": "救援管理系统",
-  "short_name": "救援系统",
+  "name": "PelicancncManagement",
+  "short_name": "Pelicancnc",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
